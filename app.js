@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var app = express();
 
 //Body Parser
-// app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -18,8 +17,13 @@ app.use(bodyParser.json())
 //Importar rutas
 var appRoutes = require('./routes/app');
 var claseRoutes = require('./routes/clase');
-
-
+var actividadRoutes = require('./routes/actividad');
+var avisoRoutes = require('./routes/aviso');
+var departamentoRoutes = require('./routes/departamento');
+var empleadoRoutes = require('./routes/empleado');
+var extensionRoutes = require('./routes/extension');
+var lugarRoutes = require('./routes/lugar');
+var servicioRoutes = require('./routes/servicio');
 
 //Conexion a bd
 var mysqlConnection = mysql.createConnection({
@@ -39,17 +43,23 @@ mysqlConnection.connect((err) => {
 
 
 //Rutas para realizar petición
-// app.use('/clase', claseRoutes);
+app.use('/clase', claseRoutes);
+app.use('/actividad', actividadRoutes);
+app.use('/aviso', avisoRoutes);
+app.use('/departamento', departamentoRoutes);
+app.use('/empleado', empleadoRoutes);
+app.use('/extension', extensionRoutes);
+app.use('/lugar', lugarRoutes);
+app.use('/servicio', servicioRoutes);
+
 
 //Esta tiene que ser la última ruta
+//si la pongo crash -- :(
 //  app.use('/', appRoutes);
-app.use('/clase', claseRoutes)
-
 
 //Escuchar peticiones
 app.listen(3000, () => {
         console.log('Express run port:3000');
-
     })
     /* SI SIRVE PETICION 
     app.get('/clase', (req, res, next) => {
@@ -71,5 +81,5 @@ app.listen(3000, () => {
     });
     */
 
-
+//Era para ver si podia exportar la conexion y no estar haciendola en cada route
 // module.exports = mysqlConnection
