@@ -1,7 +1,9 @@
 var express = require('express');
 var mysql = require('mysql');
+var bcrypt = require('bcryptjs');
 
-//Conexion a bd
+var Usuario = require('../models/usuario')
+    //Conexion a bd
 var mysqlConnection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -11,9 +13,9 @@ var mysqlConnection = mysql.createConnection({
 
 mysqlConnection.connect((err) => {
     if (err) {
-        console.log('Fallo conexion -Empleado');
+        console.log('Fallo conexion -Usuario');
     } else {
-        console.log('Conexion Exitosa -Empleado');
+        console.log('Conexion Exitosa -Usuario');
     }
 });
 
@@ -21,12 +23,13 @@ var app = express();
 
 
 // ========================================================
-// ================OBTENER TODOS LOS LUGARES ===============
+// ================OBTENER TODOS LOS USUARIOS ===============
 //=========================================================
 app.get('/', (req, res, next) => {
     mysqlConnection
-        .query('SELECT * FROM lugar', (err, rows, field) => {
+        .query('SELECT * FROM usuario', (err, rows, field) => {
             if (!err) {
+
                 // console.log(rows);
                 res.status(200).json({
                     ok: true,
@@ -42,14 +45,14 @@ app.get('/', (req, res, next) => {
 });
 
 // ========================================================
-// ================OBTENER LUGAR POR ID ===============
+// ================OBTENER USUARIO POR ID ===============
 //=========================================================
 
 app.get('/:id', (req, res, next) => {
 
     mysqlConnection
-        .query('SELECT * FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows, field) => {
-            if (!err && rows.affectedRows === 1) {
+        .query('SELECT * FROM usuario WHERE id_usuario = ?', [req.params.id], (err, rows, field) => {
+            if (!err && rows != "") {
                 // console.log(rows);
                 res.status(200).json({
                     ok: true,
@@ -58,7 +61,7 @@ app.get('/:id', (req, res, next) => {
             } else {
                 res.status(500).json({
                     ok: false,
-                    error: "No existe lugar con ese id "
+                    error: "No existe empleado con ese id "
                 });
             }
         })
@@ -66,23 +69,23 @@ app.get('/:id', (req, res, next) => {
 
 
 // ========================================================
-// ================BORRAR LUGAR POR ID ===============
+// ================BORRAR EMPLEADO POR ID ===============
 //=========================================================
 
 app.delete('/:id', (req, res, next) => {
 
-    mysqlConnection.query('DELETE FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows) => {
-        if (!err && rows.affectedRows === 1) {
+    mysqlConnection.query('DELETE FROM uduario WHERE id_usuario = ?', [req.params.id], (err, rows) => {
+        if (!err && rows != "") {
             // console.log(rows);
             res.status(200).json({
                 ok: true,
-                msj: "Se eliminó el lugar ",
+                msj: "Se eliminó el empleado ",
                 rows: rows
             });
         } else {
             res.status(500).json({
                 ok: false,
-                error: "No existe el lugar con ese id ",
+                error: "No existe el empleado con ese id ",
                 err: err
             });
         }
@@ -91,31 +94,22 @@ app.delete('/:id', (req, res, next) => {
 
 
 // ========================================================
-// ================AGREGAR LUGAR ===============
+// ================AGREGAR EMPLEADO ===============
 //=========================================================
 app.post('/', (req, res, next) => {
 
-    var lugar = {
-        id_lugar: Number,
-        nombre: String,
-        descripcion: String,
-        fecha_constr: Date,
-        id_edificio: Number
+    var body = req.body;
+    var usuario = {
+        nombre: body.nombre,
+        contra: bcrypt.hashSync(body.contra, 10),
+
     }
-    lugar.nombre = req.body.nombre;
-    lugar.descripcion = req.body.descripcion;
-    lugar.fecha_constr = req.body.fecha_constr;
-    lugar.id_edificio = req.body.id_edificio;
-
-
     mysqlConnection
-        .query("INSERT INTO horarioscca.lugar \
-        (nombre, descripcion, fecha_constr, id_edificio) \
-         VALUES (?,?,?,?) ", [
-                lugar.nombre,
-                lugar.descripcion,
-                lugar.fecha_constr,
-                lugar.id_edificio,
+        .query("INSERT INTO horarioscca.usuario \
+        (nombre,contra) \
+         VALUES (?,?) ", [
+                usuario.nombre,
+                usuario.contra
             ],
             (err, rows) => {
                 if (!err) {
@@ -139,49 +133,40 @@ app.post('/', (req, res, next) => {
 });
 
 // ========================================================
-// ================ACTUALIZAR LUGAR =======================
+// ================ACTUALIZAR USUARIO =======================
 //=========================================================
 app.put('/:id', (req, res, next) => {
 
-    var lugar = {
-        id_lugar: Number,
-        nombre: String,
-        descripcion: String,
-        fecha_constr: Date,
-        id_edificio: Number
-    }
-    lugar.nombre = req.body.nombre;
-    lugar.descripcion = req.body.descripcion;
-    lugar.fecha_constr = req.body.fecha_constr;
-    lugar.id_edificio = req.body.id_edificio;
+    var body = req.body;
+    var usuario = {
+        nombre: body.nombre,
+        contra: bcrypt.hashSync(body.contra, 10),
 
+    }
     mysqlConnection
-        .query("UPDATE horarioscca.lugar \
-         SET nombre=?, descripcion=?, fecha_constr=?, id_edificio=?\
-            WHERE id_lugar = ? ", [
-                lugar.nombre,
-                lugar.descripcion,
-                lugar.fecha_constr,
-                lugar.id_edificio,
+        .query("UPDATE horarioscca.usuario \
+         SET nombre=?,contra=?\
+            WHERE id_usuario = ? ", [
+                usuario.nombre,
+                usuario.contra,
                 req.params.id
             ],
             (err, rows) => {
-                if (!err && rows.affectedRows === 1) {
+                if (!err) {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
                         resp: {
-                            mensaje: "Update Correcta de Lugar",
-                            Body: req.body,
+                            mensaje: "Update Correcta de Empleado",
+                            // Body: req.body,
                             rows: rows
                         }
                     });
                 } else {
                     res.status(500).json({
                         ok: false,
-                        msj: 'No se actualizo Lugar',
                         error: err,
-                        body: req.body
+                        // body: req.body
                     });
                 }
             })

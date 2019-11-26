@@ -104,7 +104,8 @@ app.post('/', (req, res, next) => {
         tipo: String,
         id_jefe: Number,
         id_dpto: Number,
-        correo: String
+        correo: String,
+        cargo: String
     }
 
     empleado.id_empleado = req.body.id_empleado;
@@ -116,11 +117,12 @@ app.post('/', (req, res, next) => {
     empleado.id_jefe = req.body.id_jefe;
     empleado.id_dpto = req.body.id_dpto;
     empleado.correo = req.body.correo;
+    empleado.cargo = req.body.cargo;
 
     mysqlConnection
         .query("INSERT INTO horarioscca.empleado \
-        (nombre,apellido1,apellido2,fecha_ingreso,tipo,id_jefe,id_dpto,correo ) \
-         VALUES (?,?,?,?,?,?,?,?) ", [
+        (nombre,apellido1,apellido2,fecha_ingreso,tipo,id_jefe,id_dpto,correo,cargo ) \
+         VALUES (?,?,?,?,?,?,?,?,?) ", [
                 empleado.nombre,
                 empleado.apellido1,
                 empleado.apellido2,
@@ -129,6 +131,7 @@ app.post('/', (req, res, next) => {
                 empleado.id_jefe,
                 empleado.id_dpto,
                 empleado.correo,
+                empleado.cargo,
             ],
             (err, rows) => {
                 if (!err) {
@@ -165,7 +168,8 @@ app.put('/:id', (req, res, next) => {
         tipo: String,
         id_jefe: Number,
         id_dpto: Number,
-        correo: String
+        correo: String,
+        cargo: String
 
     }
 
@@ -178,12 +182,13 @@ app.put('/:id', (req, res, next) => {
     empleado.id_jefe = req.body.id_jefe;
     empleado.id_dpto = req.body.id_dpto;
     empleado.correo = req.body.correo;
+    empleado.cargo = req.body.cargo;
 
     mysqlConnection
         .query("UPDATE horarioscca.empleado \
-         SET nombre=?, apellido1=?, apellido2=?, fecha_ingreso=?, tipo=?, id_jefe=?, id_dpto=?, correo=?\
+         SET nombre=?, apellido1=?, apellido2=?, fecha_ingreso=?, tipo=?, id_jefe=?, id_dpto=?, correo=?, cargo=?\
             WHERE id_empleado = ? ", [
-                empleado.id_empleado,
+
                 empleado.nombre,
                 empleado.apellido1,
                 empleado.apellido2,
@@ -192,6 +197,7 @@ app.put('/:id', (req, res, next) => {
                 empleado.id_jefe,
                 empleado.id_dpto,
                 empleado.correo,
+                empleado.cargo,
                 req.params.id
             ],
             (err, rows) => {
@@ -200,7 +206,7 @@ app.put('/:id', (req, res, next) => {
                     res.status(200).json({
                         ok: true,
                         resp: {
-                            mensaje: "Update Correcta de Departamento",
+                            mensaje: "Update Correcta de Empleado",
                             Body: req.body,
                             rows: rows
                         }

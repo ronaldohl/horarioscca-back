@@ -11,9 +11,9 @@ var mysqlConnection = mysql.createConnection({
 
 mysqlConnection.connect((err) => {
     if (err) {
-        console.log('Fallo conexion -Empleado');
+        console.log('Fallo conexion -subservicio');
     } else {
-        console.log('Conexion Exitosa -Empleado');
+        console.log('Conexion Exitosa -subservicio');
     }
 });
 
@@ -21,11 +21,11 @@ var app = express();
 
 
 // ========================================================
-// ================OBTENER TODOS LOS LUGARES ===============
+// ================OBTENER TODOS LOS subservicioS ===============
 //=========================================================
 app.get('/', (req, res, next) => {
     mysqlConnection
-        .query('SELECT * FROM lugar', (err, rows, field) => {
+        .query('SELECT * FROM subservicio', (err, rows, field) => {
             if (!err) {
                 // console.log(rows);
                 res.status(200).json({
@@ -42,14 +42,14 @@ app.get('/', (req, res, next) => {
 });
 
 // ========================================================
-// ================OBTENER LUGAR POR ID ===============
+// ================OBTENER subservicio POR ID ===============
 //=========================================================
 
 app.get('/:id', (req, res, next) => {
 
     mysqlConnection
-        .query('SELECT * FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows, field) => {
-            if (!err && rows.affectedRows === 1) {
+        .query('SELECT * FROM subservicio WHERE id_subservicio = ?', [req.params.id], (err, rows, field) => {
+            if (!err && rows != "") {
                 // console.log(rows);
                 res.status(200).json({
                     ok: true,
@@ -58,7 +58,7 @@ app.get('/:id', (req, res, next) => {
             } else {
                 res.status(500).json({
                     ok: false,
-                    error: "No existe lugar con ese id "
+                    error: "No existe subservicio con ese id "
                 });
             }
         })
@@ -66,23 +66,23 @@ app.get('/:id', (req, res, next) => {
 
 
 // ========================================================
-// ================BORRAR LUGAR POR ID ===============
+// ================BORRAR subservicio POR ID ===============
 //=========================================================
 
 app.delete('/:id', (req, res, next) => {
 
-    mysqlConnection.query('DELETE FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows) => {
+    mysqlConnection.query('DELETE FROM subservicio WHERE id_subservicio = ?', [req.params.id], (err, rows) => {
         if (!err && rows.affectedRows === 1) {
             // console.log(rows);
             res.status(200).json({
                 ok: true,
-                msj: "Se eliminó el lugar ",
+                msj: "Se eliminó el subservicio ",
                 rows: rows
             });
         } else {
             res.status(500).json({
                 ok: false,
-                error: "No existe el lugar con ese id ",
+                error: "No existe el subservicio con ese id ",
                 err: err
             });
         }
@@ -91,31 +91,39 @@ app.delete('/:id', (req, res, next) => {
 
 
 // ========================================================
-// ================AGREGAR LUGAR ===============
+// ================AGREGAR subservicio ===============
 //=========================================================
 app.post('/', (req, res, next) => {
 
-    var lugar = {
-        id_lugar: Number,
+    var subservicio = {
+        id_subservicio: Number,
         nombre: String,
+        recomendaciones: String,
         descripcion: String,
-        fecha_constr: Date,
-        id_edificio: Number
+        costo: Number,
+        det_costo: String,
+        duracion: Number,
+        id_servicio: Number
     }
-    lugar.nombre = req.body.nombre;
-    lugar.descripcion = req.body.descripcion;
-    lugar.fecha_constr = req.body.fecha_constr;
-    lugar.id_edificio = req.body.id_edificio;
-
+    subservicio.nombre = req.body.nombre;
+    subservicio.recomendaciones = req.body.recomendaciones;
+    subservicio.descripcion = req.body.descripcion;
+    subservicio.costo = req.body.costo;
+    subservicio.det_costo = req.body.det_costo;
+    subservicio.duracion = req.body.duracion;
+    subservicio.id_servicio = req.body.id_servicio;
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.lugar \
-        (nombre, descripcion, fecha_constr, id_edificio) \
-         VALUES (?,?,?,?) ", [
-                lugar.nombre,
-                lugar.descripcion,
-                lugar.fecha_constr,
-                lugar.id_edificio,
+        .query("INSERT INTO horarioscca.subservicio \
+        (nombre,recomendaciones, descripcion, costo, det_costo, duracion, id_servicio) \
+         VALUES (?,?,?,?,?,?,?) ", [
+                subservicio.nombre,
+                subservicio.recomendaciones,
+                subservicio.descripcion,
+                subservicio.costo,
+                subservicio.det_costo,
+                subservicio.duracion,
+                subservicio.id_servicio,
             ],
             (err, rows) => {
                 if (!err) {
@@ -139,30 +147,39 @@ app.post('/', (req, res, next) => {
 });
 
 // ========================================================
-// ================ACTUALIZAR LUGAR =======================
+// ================ACTUALIZAR subservicio =======================
 //=========================================================
 app.put('/:id', (req, res, next) => {
 
-    var lugar = {
-        id_lugar: Number,
+    var subservicio = {
+        id_subservicio: Number,
         nombre: String,
+        recomendaciones: String,
         descripcion: String,
-        fecha_constr: Date,
-        id_edificio: Number
+        costo: Number,
+        det_costo: String,
+        duracion: Number,
+        id_servicio: Number
     }
-    lugar.nombre = req.body.nombre;
-    lugar.descripcion = req.body.descripcion;
-    lugar.fecha_constr = req.body.fecha_constr;
-    lugar.id_edificio = req.body.id_edificio;
+    subservicio.nombre = req.body.nombre;
+    subservicio.recomendaciones = req.body.recomendaciones;
+    subservicio.descripcion = req.body.descripcion;
+    subservicio.costo = req.body.costo;
+    subservicio.det_costo = req.body.det_costo;
+    subservicio.duracion = req.body.duracion;
+    subservicio.id_servicio = req.body.id_servicio;
 
     mysqlConnection
-        .query("UPDATE horarioscca.lugar \
-         SET nombre=?, descripcion=?, fecha_constr=?, id_edificio=?\
-            WHERE id_lugar = ? ", [
-                lugar.nombre,
-                lugar.descripcion,
-                lugar.fecha_constr,
-                lugar.id_edificio,
+        .query("UPDATE horarioscca.subservicio \
+         SET nombre=?, recomendaciones=?, descripcion=?, costo=?, det_costo=?, duracion=?, id_servicio=?\
+            WHERE id_subservicio = ? ", [
+                subservicio.nombre,
+                subservicio.recomendaciones,
+                subservicio.descripcion,
+                subservicio.costo,
+                subservicio.det_costo,
+                subservicio.duracion,
+                subservicio.id_servicio,
                 req.params.id
             ],
             (err, rows) => {
@@ -171,7 +188,7 @@ app.put('/:id', (req, res, next) => {
                     res.status(200).json({
                         ok: true,
                         resp: {
-                            mensaje: "Update Correcta de Lugar",
+                            mensaje: "Update Correcta de subsubservicio",
                             Body: req.body,
                             rows: rows
                         }
@@ -179,7 +196,7 @@ app.put('/:id', (req, res, next) => {
                 } else {
                     res.status(500).json({
                         ok: false,
-                        msj: 'No se actualizo Lugar',
+                        msj: 'No se actualizo subsubservicio',
                         error: err,
                         body: req.body
                     });

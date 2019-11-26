@@ -11,9 +11,9 @@ var mysqlConnection = mysql.createConnection({
 
 mysqlConnection.connect((err) => {
     if (err) {
-        console.log('Fallo conexion -Empleado');
+        console.log('Fallo conexion -turno');
     } else {
-        console.log('Conexion Exitosa -Empleado');
+        console.log('Conexion Exitosa -turno');
     }
 });
 
@@ -21,11 +21,11 @@ var app = express();
 
 
 // ========================================================
-// ================OBTENER TODOS LOS LUGARES ===============
+// ================OBTENER TODOS LOS turnos ===============
 //=========================================================
 app.get('/', (req, res, next) => {
     mysqlConnection
-        .query('SELECT * FROM lugar', (err, rows, field) => {
+        .query('SELECT * FROM turno', (err, rows, field) => {
             if (!err) {
                 // console.log(rows);
                 res.status(200).json({
@@ -42,14 +42,14 @@ app.get('/', (req, res, next) => {
 });
 
 // ========================================================
-// ================OBTENER LUGAR POR ID ===============
+// ================OBTENER turno POR ID ===============
 //=========================================================
 
 app.get('/:id', (req, res, next) => {
 
     mysqlConnection
-        .query('SELECT * FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows, field) => {
-            if (!err && rows.affectedRows === 1) {
+        .query('SELECT * FROM turno WHERE id_turno = ?', [req.params.id], (err, rows, field) => {
+            if (!err && rows != "") {
                 // console.log(rows);
                 res.status(200).json({
                     ok: true,
@@ -58,7 +58,7 @@ app.get('/:id', (req, res, next) => {
             } else {
                 res.status(500).json({
                     ok: false,
-                    error: "No existe lugar con ese id "
+                    error: "No existe turno con ese id "
                 });
             }
         })
@@ -66,23 +66,23 @@ app.get('/:id', (req, res, next) => {
 
 
 // ========================================================
-// ================BORRAR LUGAR POR ID ===============
+// ================BORRAR turno POR ID ===============
 //=========================================================
 
 app.delete('/:id', (req, res, next) => {
 
-    mysqlConnection.query('DELETE FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows) => {
+    mysqlConnection.query('DELETE FROM turno WHERE id_turno = ?', [req.params.id], (err, rows) => {
         if (!err && rows.affectedRows === 1) {
             // console.log(rows);
             res.status(200).json({
                 ok: true,
-                msj: "Se eliminó el lugar ",
+                msj: "Se eliminó el turno ",
                 rows: rows
             });
         } else {
             res.status(500).json({
                 ok: false,
-                error: "No existe el lugar con ese id ",
+                error: "No existe el turno con ese id ",
                 err: err
             });
         }
@@ -91,31 +91,47 @@ app.delete('/:id', (req, res, next) => {
 
 
 // ========================================================
-// ================AGREGAR LUGAR ===============
+// ================AGREGAR turno ===============
 //=========================================================
 app.post('/', (req, res, next) => {
 
-    var lugar = {
+    var turno = {
+        id_turno: Number,
+        tipo: String,
+        dia: String,
+        hora_inicio: Date,
+        hora_fin: Date,
         id_lugar: Number,
-        nombre: String,
-        descripcion: String,
-        fecha_constr: Date,
-        id_edificio: Number
-    }
-    lugar.nombre = req.body.nombre;
-    lugar.descripcion = req.body.descripcion;
-    lugar.fecha_constr = req.body.fecha_constr;
-    lugar.id_edificio = req.body.id_edificio;
+        id_actividad: Number,
+        id_servicio: Number,
+        id_dpto: Number,
+        id_empleado: Number
 
+    }
+
+    turno.tipo = req.body.tipo;
+    turno.dia = req.body.dia;
+    turno.hora_inicio = req.body.hora_inicio;
+    turno.hora_fin = req.body.hora_fin;
+    turno.id_lugar = req.body.id_lugar;
+    turno.id_actividad = req.body.id_actividad;
+    turno.id_servicio = req.body.id_servicio;
+    turno.id_dpto = req.body.id_dpto;
+    turno.id_empleado = req.body.id_empleado;
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.lugar \
-        (nombre, descripcion, fecha_constr, id_edificio) \
-         VALUES (?,?,?,?) ", [
-                lugar.nombre,
-                lugar.descripcion,
-                lugar.fecha_constr,
-                lugar.id_edificio,
+        .query("INSERT INTO horarioscca.turno \
+        (tipo,dia,hora_inicio, hora_fin, id_lugar, id_actividad, id_servicio, id_dpto, id_empleado) \
+         VALUES (?,?,?,?,?,?,?,?,?) ", [
+                turno.tipo,
+                turno.dia,
+                turno.hora_inicio,
+                turno.hora_fin,
+                turno.id_lugar,
+                turno.id_actividad,
+                turno.id_servicio,
+                turno.id_dpto,
+                turno.id_empleado,
             ],
             (err, rows) => {
                 if (!err) {
@@ -139,30 +155,46 @@ app.post('/', (req, res, next) => {
 });
 
 // ========================================================
-// ================ACTUALIZAR LUGAR =======================
+// ================ACTUALIZAR turno =======================
 //=========================================================
 app.put('/:id', (req, res, next) => {
 
-    var lugar = {
+    var turno = {
+        id_turno: Number,
+        tipo: String,
+        dia: String,
+        hora_inicio: Date,
+        hora_fin: Date,
         id_lugar: Number,
-        nombre: String,
-        descripcion: String,
-        fecha_constr: Date,
-        id_edificio: Number
+        id_actividad: Number,
+        id_servicio: Number,
+        id_dpto: Number,
+        id_empleado: Number
+
     }
-    lugar.nombre = req.body.nombre;
-    lugar.descripcion = req.body.descripcion;
-    lugar.fecha_constr = req.body.fecha_constr;
-    lugar.id_edificio = req.body.id_edificio;
+    turno.tipo = req.body.tipo;
+    turno.dia = req.body.dia;
+    turno.hora_inicio = req.body.hora_inicio;
+    turno.hora_fin = req.body.hora_fin;
+    turno.id_lugar = req.body.id_lugar;
+    turno.id_actividad = req.body.id_actividad;
+    turno.id_servicio = req.body.id_servicio;
+    turno.id_dpto = req.body.id_dpto;
+    turno.id_empleado = req.body.id_empleado;
 
     mysqlConnection
-        .query("UPDATE horarioscca.lugar \
-         SET nombre=?, descripcion=?, fecha_constr=?, id_edificio=?\
-            WHERE id_lugar = ? ", [
-                lugar.nombre,
-                lugar.descripcion,
-                lugar.fecha_constr,
-                lugar.id_edificio,
+        .query("UPDATE horarioscca.turno \
+         SET tipo=?,dia=?,hora_inicio=?, hora_fin=?, id_lugar=?, id_actividad=?, id_servicio=?, id_dpto=?, id_empleado=?\
+            WHERE id_turno = ? ", [
+                turno.tipo,
+                turno.dia,
+                turno.hora_inicio,
+                turno.hora_fin,
+                turno.id_lugar,
+                turno.id_actividad,
+                turno.id_servicio,
+                turno.id_dpto,
+                turno.id_empleado,
                 req.params.id
             ],
             (err, rows) => {
@@ -171,7 +203,7 @@ app.put('/:id', (req, res, next) => {
                     res.status(200).json({
                         ok: true,
                         resp: {
-                            mensaje: "Update Correcta de Lugar",
+                            mensaje: "Update Correcta de turno",
                             Body: req.body,
                             rows: rows
                         }
@@ -179,7 +211,7 @@ app.put('/:id', (req, res, next) => {
                 } else {
                     res.status(500).json({
                         ok: false,
-                        msj: 'No se actualizo Lugar',
+                        msj: 'No se actualizo turno',
                         error: err,
                         body: req.body
                     });
