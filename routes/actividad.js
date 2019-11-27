@@ -46,7 +46,7 @@ app.get('/', (req, res, next) => {
 app.get('/:id', (req, res, next) => {
 
     mysqlConnection.query('SELECT * FROM actividad WHERE id_actividad = ?', [req.params.id], (err, rows, field) => {
-        if (!err && rows != "") {
+        if (!err && rows.affectedRows === 1) {
             // console.log(rows);
             res.status(200).json({
                 ok: true,
@@ -55,7 +55,8 @@ app.get('/:id', (req, res, next) => {
         } else {
             res.status(500).json({
                 ok: false,
-                error: "No existe actividad con ese id "
+                error: "No se puede obtener actividad con ese id ",
+                err: err
             });
         }
     })
@@ -71,7 +72,7 @@ app.delete('/:id', (req, res, next) => {
     mysqlConnection
         .query('DELETE FROM actividad WHERE id_actividad = ?', [req.params.id],
             (err, rows) => {
-                if (!err && rows != "") {
+                if (!err && rows.affectedRows === 1) {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
@@ -81,7 +82,8 @@ app.delete('/:id', (req, res, next) => {
                 } else {
                     res.status(500).json({
                         ok: false,
-                        error: "No existe actividad con ese id "
+                        error: "No se puede borrar actividad con ese id ",
+                        err: err
                     });
                 }
             })

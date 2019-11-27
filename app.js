@@ -35,6 +35,7 @@ var subservicioRoutes = require('./routes/subservicio');
 var turnoRoutes = require('./routes/turno');
 var loginRoutes = require('./routes/login');
 var usuarioRoutes = require('./routes/usuario');
+var detActividadRoutes = require('./routes/detActividad');
 //Conexion a bd
 var mysqlConnection = mysql.createConnection({
     host: 'localhost',
@@ -63,8 +64,9 @@ app.use('/lugar', lugarRoutes);
 app.use('/servicio', servicioRoutes);
 app.use('/subservicio', subservicioRoutes);
 app.use('/turno', turnoRoutes);
-app.use('/login', loginRoutes);
+// app.use('/login', loginRoutes);
 app.use('/usuario', usuarioRoutes);
+app.use('/detActividad', detActividadRoutes);
 
 
 //Esta tiene que ser la última ruta
