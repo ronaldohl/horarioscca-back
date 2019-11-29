@@ -11,24 +11,24 @@ var mysqlConnection = mysql.createConnection({
 
 mysqlConnection.connect((err) => {
     if (err) {
-        console.log('Fallo conexion -detActividad');
+        console.log('Fallo conexion -verEmpleado');
     } else {
-        console.log('Conexion Exitosa -detActividad');
+        console.log('Conexion Exitosa -verEmpleado');
     }
 });
 
 var app = express();
 
 // ========================================================
-// ================OBTENER DETALLES ACT ===============
+// ================OBTENER VISTA VER EMPLEADO===============
 //=========================================================
 
 app.get('/:id', (req, res, next) => {
 
     mysqlConnection
-        .query("select turno.id_turno, turno.dia, turno.hora_inicio, turno.hora_fin, empleado.id_empleado, empleado.nombre_emp, actividad.nombre_actv, actividad.clasificacion_actv, actividad.descripcion_actv, actividad.costo_actv, actividad.det_costo_actv, lugar.id_lugar, lugar.nombre_lugar \
-        from turno inner join horarioscca.actividad  inner join empleado inner join lugar\
-        where turno.tipo='a' and turno.id_turno=? and turno.id_actividad=actividad.id_actividad and turno.id_empleado = empleado.id_empleado and turno.id_lugar=lugar.id_lugar;  ", [req.params.id, req.params.id], (err, rows, field) => {
+        .query(" select emp1.id_empleado, emp1.nombre_emp, emp1.apellido1, emp1.apellido2, emp1.cargo, emp1.fecha_ingreso, emp1.tipo_emp, emp1.correo, jefe.nombre_emp, d.nombre_dpto\
+                from empleado as emp1 inner join empleado as jefe on emp1.id_jefe=jefe.id_empleado inner join departamento as d on emp1.id_dpto=d.id_dpto\
+                where emp1.id_empleado=?;   ", [req.params.id], (err, rows, field) => {
             if (!err && rows != "") {
                 // console.log(rows);
                 res.status(200).json({

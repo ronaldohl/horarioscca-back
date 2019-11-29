@@ -1,5 +1,5 @@
 //===========NO SIRVE , MANDA ERROR AL HACER PETICION =========
-/*var express = require('express');
+var express = require('express');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var mysql = require('mysql');
@@ -27,7 +27,8 @@ var SEED = require('../config/config').SEED;
 app.post('/', (req, res) => {
     var body = req.body;
 
-    mysqlConnection.query("SELECT * FROM usuario WHERE nombre=? ", [body.nombre],
+
+    mysqlConnection.query("SELECT * FROM usuario WHERE nombre_usr=? ", [body.nombre_usr],
         (err, usuarioDB) => {
             if (err) {
                 return res.status(500).json({
@@ -43,7 +44,9 @@ app.post('/', (req, res) => {
                     errors: err
                 });
             }
-            if (!bcrypt.compareSync(body.contra, usuarioDB.contra)) {
+
+
+            if (!bcrypt.compareSync(body.contra.toString(), usuarioDB[0].contra)) {
                 return res.status(400).json({
                     ok: false,
                     mensaje: 'Credenciales incorrectas - password',
@@ -71,4 +74,3 @@ app.post('/', (req, res) => {
 
 
 module.exports = app;
-*/

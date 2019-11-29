@@ -1,7 +1,7 @@
 var turno = {
     id_turno: Number,
     tipo: String,
-    dia: String,
+    dia: Number,
     hora_inicio: Date,
     hora_fin: Date,
     id_lugar: Number,

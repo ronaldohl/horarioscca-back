@@ -7,12 +7,14 @@ var bodyParser = require('body-parser');
 //Inicializar variables
 var app = express();
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "YOUR-DOMAIN.TLD"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Contol-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
+
 
 //Body Parser
 
@@ -36,6 +38,13 @@ var turnoRoutes = require('./routes/turno');
 var loginRoutes = require('./routes/login');
 var usuarioRoutes = require('./routes/usuario');
 var detActividadRoutes = require('./routes/detActividad');
+var horarioRoutes = require('./routes/horario');
+var verEmpleadoRoutes = require('./routes/verEmpleado');
+
+console.log("login");
+console.log(loginRoutes);
+
+
 //Conexion a bd
 var mysqlConnection = mysql.createConnection({
     host: 'localhost',
@@ -64,9 +73,11 @@ app.use('/lugar', lugarRoutes);
 app.use('/servicio', servicioRoutes);
 app.use('/subservicio', subservicioRoutes);
 app.use('/turno', turnoRoutes);
-// app.use('/login', loginRoutes);
+app.use('/login', loginRoutes);
 app.use('/usuario', usuarioRoutes);
 app.use('/detActividad', detActividadRoutes);
+app.use('/horario', horarioRoutes);
+app.use('/verEmpleado', verEmpleadoRoutes);
 
 
 //Esta tiene que ser la última ruta

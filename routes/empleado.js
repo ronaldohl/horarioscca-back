@@ -29,7 +29,7 @@ app.get('/', (req, res, next) => {
             if (!err) {
                 // console.log(rows);
                 res.status(200).json({
-                    ok: true,
+
                     rows: rows
                 });
             } else {
@@ -97,23 +97,23 @@ app.post('/', (req, res, next) => {
 
     var empleado = {
         id_empleado: Number,
-        nombre: String,
+        nombre_emp: String,
         apellido1: String,
         apellido2: String,
         fecha_ingreso: Number,
-        tipo: String,
+        tipo_emp: String,
         id_jefe: Number,
         id_dpto: Number,
         correo: String,
         cargo: String
     }
 
-    empleado.id_empleado = req.body.id_empleado;
-    empleado.nombre = req.body.nombre;
+
+    empleado.nombre_emp = req.body.nombre_emp;
     empleado.apellido1 = req.body.apellido1;
     empleado.apellido2 = req.body.apellido2;
     empleado.fecha_ingreso = req.body.fecha_ingreso;
-    empleado.tipo = req.body.tipo;
+    empleado.tipo_emp = req.body.tipo_emp;
     empleado.id_jefe = req.body.id_jefe;
     empleado.id_dpto = req.body.id_dpto;
     empleado.correo = req.body.correo;
@@ -121,13 +121,13 @@ app.post('/', (req, res, next) => {
 
     mysqlConnection
         .query("INSERT INTO horarioscca.empleado \
-        (nombre,apellido1,apellido2,fecha_ingreso,tipo,id_jefe,id_dpto,correo,cargo ) \
+        (nombre_emp,apellido1,apellido2,fecha_ingreso,tipo_emp,id_jefe,id_dpto,correo,cargo ) \
          VALUES (?,?,?,?,?,?,?,?,?) ", [
-                empleado.nombre,
+                empleado.nombre_emp,
                 empleado.apellido1,
                 empleado.apellido2,
                 empleado.fecha_ingreso,
-                empleado.tipo,
+                empleado.tipo_emp,
                 empleado.id_jefe,
                 empleado.id_dpto,
                 empleado.correo,
@@ -138,10 +138,9 @@ app.post('/', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Insercion Correcta",
-                            rows: rows
-                        }
+                        mensaje: "Insercion Correcta",
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -174,11 +173,11 @@ app.put('/:id', (req, res, next) => {
     }
 
     empleado.id_empleado = req.body.id_empleado;
-    empleado.nombre = req.body.nombre;
+    empleado.nombre = req.body.nombre_emp;
     empleado.apellido1 = req.body.apellido1;
     empleado.apellido2 = req.body.apellido2;
     empleado.fecha_ingreso = req.body.fecha_ingreso;
-    empleado.tipo = req.body.tipo;
+    empleado.tipo = req.body.tipo_emp;
     empleado.id_jefe = req.body.id_jefe;
     empleado.id_dpto = req.body.id_dpto;
     empleado.correo = req.body.correo;
@@ -186,7 +185,7 @@ app.put('/:id', (req, res, next) => {
 
     mysqlConnection
         .query("UPDATE horarioscca.empleado \
-         SET nombre=?, apellido1=?, apellido2=?, fecha_ingreso=?, tipo=?, id_jefe=?, id_dpto=?, correo=?, cargo=?\
+         SET nombre_emp=?, apellido1=?, apellido2=?, fecha_ingreso=?, tipo_emp=?, id_jefe=?, id_dpto=?, correo=?, cargo=?\
             WHERE id_empleado = ? ", [
 
                 empleado.nombre,
@@ -205,11 +204,10 @@ app.put('/:id', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de Empleado",
-                            Body: req.body,
-                            rows: rows
-                        }
+                        mensaje: "Update Correcta de Empleado",
+                        Body: req.body,
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
