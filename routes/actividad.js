@@ -24,7 +24,7 @@ var app = express();
 //=========================================================
 app.get('/', (req, res, next) => {
     mysqlConnection.query('SELECT * FROM actividad', (err, rows, field) => {
-        if (!err) {
+        if (!err && rows != "") {
             // console.log(rows);
             res.status(200).json({
                 ok: true,
@@ -46,7 +46,7 @@ app.get('/', (req, res, next) => {
 app.get('/:id', (req, res, next) => {
 
     mysqlConnection.query('SELECT * FROM actividad WHERE id_actividad = ?', [req.params.id], (err, rows, field) => {
-        if (!err && rows.affectedRows === 1) {
+        if (!err && rows) {
             // console.log(rows);
             res.status(200).json({
                 ok: true,

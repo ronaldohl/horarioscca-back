@@ -99,11 +99,11 @@ app.post('/', (req, res, next) => {
         anotaciones: String
     }
 
-    clase.nombre = req.body.nombre;
-    clase.tipo = req.body.tipo;
-    clase.anotaciones = req.body.anotaciones;
+    clase.nombre = req.body.nombre_clase;
+    clase.tipo = req.body.tipo_clase;
+    clase.anotaciones = req.body.anotaciones_clase;
 
-    mysqlConnection.query("INSERT INTO horarioscca.clase (nombre,tipo,anotaciones ) VALUES (?,?,?) ", [clase.nombre, clase.tipo, clase.anotaciones], (err, rows) => {
+    mysqlConnection.query("INSERT INTO horarioscca.clase (nombre_clase,tipo_clase,anotaciones_clase ) VALUES (?,?,?) ", [clase.nombre, clase.tipo, clase.anotaciones], (err, rows) => {
         if (!err) {
             // console.log(rows);
             res.status(200).json({
@@ -136,11 +136,11 @@ app.put('/:id', (req, res, next) => {
         anotaciones: String
     }
 
-    clase.nombre = req.body.nombre;
-    clase.tipo = req.body.tipo;
-    clase.anotaciones = req.body.anotaciones;
+    clase.nombre = req.body.nombre_clase;
+    clase.tipo = req.body.tipo_clase;
+    clase.anotaciones = req.body.anotaciones_clase;
 
-    mysqlConnection.query("UPDATE horarioscca.clase SET nombre=?, tipo=? ,anotaciones=? WHERE id_clase = ? ", [clase.nombre, clase.tipo, clase.anotaciones, req.params.id], (err, rows) => {
+    mysqlConnection.query("UPDATE horarioscca.clase SET nombre_clase=?, tipo_clase=? ,anotaciones_clase=? WHERE id_clase = ? ", [clase.nombre, clase.tipo, clase.anotaciones, req.params.id], (err, rows) => {
         if (!err) {
             // console.log(rows);
             res.status(200).json({

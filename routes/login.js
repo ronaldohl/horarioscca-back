@@ -44,8 +44,6 @@ app.post('/', (req, res) => {
                     errors: err
                 });
             }
-
-
             if (!bcrypt.compareSync(body.contra.toString(), usuarioDB[0].contra)) {
                 return res.status(400).json({
                     ok: false,

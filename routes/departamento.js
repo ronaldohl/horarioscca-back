@@ -42,7 +42,7 @@ app.get('/', (req, res, next) => {
 });
 
 // ========================================================
-// ================OBTENER AVISO POR ID ===============
+// ================OBTENER DEPARTAMENTO POR ID ===============
 //=========================================================
 
 app.get('/:id', (req, res, next) => {
@@ -97,27 +97,27 @@ app.post('/', (req, res, next) => {
 
     var departameto = {
         id_dpto: Number,
-        nombre: String,
-        tipo: String,
-        descripcion: String,
+        nombre_dpto: String,
+        tipo_dpto: String,
+        descripcion_dpto: String,
         id_lugar: Number,
         id_dep_sup: Number,
         id_emp_resp: Number
     }
 
-    departameto.nombre = req.body.nombre;
-    departameto.tipo = req.body.tipo;
-    departameto.descripcion = req.body.descripcion;
+    departameto.nombre_dpto = req.body.nombre_dpto;
+    departameto.tipo_dpto = req.body.tipo_dpto;
+    departameto.descripcion_dpto = req.body.descripcion_dpto;
     departameto.id_lugar = req.body.id_lugar;
     departameto.id_dep_sup = req.body.id_dep_sup;
     departameto.id_emp_resp = req.body.id_emp_resp;
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.departamento (nombre,tipo,descripcion,id_lugar,id_dep_sup,id_emp_resp ) \
+        .query("INSERT INTO horarioscca.departamento (nombre_dpto,tipo_dpto,descripcion_dpto,id_lugar,id_dep_sup,id_emp_resp ) \
          VALUES (?,?,?,?,?,?) ", [
-                departameto.nombre,
-                departameto.tipo,
-                departameto.descripcion,
+                departameto.nombre_dpto,
+                departameto.tipo_dpto,
+                departameto.descripcion_dpto,
                 departameto.id_lugar,
                 departameto.id_dep_sup,
                 departameto.id_emp_resp,
@@ -127,10 +127,10 @@ app.post('/', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Insercion Correcta",
-                            rows: rows
-                        }
+
+                        mensaje: "Insercion Correcta",
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -150,28 +150,28 @@ app.put('/:id', (req, res, next) => {
 
     var departameto = {
         id_dpto: Number,
-        nombre: String,
-        tipo: String,
-        descripcion: String,
+        nombre_dpto: String,
+        tipo_dpto: String,
+        descripcion_dpto: String,
         id_lugar: Number,
         id_dep_sup: Number,
         id_emp_resp: Number
     }
 
-    departameto.nombre = req.body.nombre;
-    departameto.tipo = req.body.tipo;
-    departameto.descripcion = req.body.descripcion;
+    departameto.nombre_dpto = req.body.nombre_dpto;
+    departameto.tipo_dpto = req.body.tipo_dpto;
+    departameto.descripcion_dpto = req.body.descripcion_dpto;
     departameto.id_lugar = req.body.id_lugar;
     departameto.id_dep_sup = req.body.id_dep_sup;
     departameto.id_emp_resp = req.body.id_emp_resp;
 
     mysqlConnection
         .query("UPDATE horarioscca.departamento \
-         SET nombre=?, tipo=? ,descripcion=?, id_lugar=?, id_dep_sup=?, id_emp_resp=?\
+         SET nombre_dpto=?, tipo_dpto=? ,descripcion_dpto=?, id_lugar=?, id_dep_sup=?, id_emp_resp=?\
             WHERE id_dpto = ? ", [
-                departameto.nombre,
-                departameto.tipo,
-                departameto.descripcion,
+                departameto.nombre_dpto,
+                departameto.tipo_dpto,
+                departameto.descripcion_dpto,
                 departameto.id_lugar,
                 departameto.id_dep_sup,
                 departameto.id_emp_resp,
@@ -182,11 +182,10 @@ app.put('/:id', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de Empleado",
-                            Body: req.body,
-                            rows: rows
-                        }
+                        mensaje: "Update Correcta de Empleado",
+                        Body: req.body,
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({

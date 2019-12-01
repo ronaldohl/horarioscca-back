@@ -40,10 +40,7 @@ var usuarioRoutes = require('./routes/usuario');
 var detActividadRoutes = require('./routes/detActividad');
 var horarioRoutes = require('./routes/horario');
 var verEmpleadoRoutes = require('./routes/verEmpleado');
-
-console.log("login");
-console.log(loginRoutes);
-
+var detClaseRoutes = require('./routes/detClase');
 
 //Conexion a bd
 var mysqlConnection = mysql.createConnection({
@@ -78,6 +75,8 @@ app.use('/usuario', usuarioRoutes);
 app.use('/detActividad', detActividadRoutes);
 app.use('/horario', horarioRoutes);
 app.use('/verEmpleado', verEmpleadoRoutes);
+app.use('/detClase', detClaseRoutes);
+
 
 
 //Esta tiene que ser la última ruta

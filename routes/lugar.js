@@ -187,4 +187,22 @@ app.put('/:id', (req, res, next) => {
             })
 });
 
+app.get('/sublugares/:id', (req, res, next) => {
+    mysqlConnection
+        .query('SELECT * FROM lugar WHERE id_edificio = ?', [req.params.id], (err, rows, field) => {
+            if (!err && rows !== "") {
+                // console.log(rows);
+                res.status(200).json({
+                    ok: true,
+                    rows: rows
+                });
+            } else {
+                res.status(500).json({
+                    ok: false,
+                    error: "No existe lugar con ese id "
+                });
+            }
+        })
+})
+
 module.exports = app
