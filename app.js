@@ -41,7 +41,7 @@ var detActividadRoutes = require('./routes/detActividad');
 var horarioRoutes = require('./routes/horario');
 var verEmpleadoRoutes = require('./routes/verEmpleado');
 var detClaseRoutes = require('./routes/detClase');
-
+var estadisticasRoutes = require('./routes/estadisticas');
 //Conexion a bd
 var mysqlConnection = mysql.createConnection({
     host: 'localhost',
@@ -76,6 +76,7 @@ app.use('/detActividad', detActividadRoutes);
 app.use('/horario', horarioRoutes);
 app.use('/verEmpleado', verEmpleadoRoutes);
 app.use('/detClase', detClaseRoutes);
+app.use('/estadisticas', estadisticasRoutes);
 
 
 

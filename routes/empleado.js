@@ -71,7 +71,7 @@ app.get('/:id', (req, res, next) => {
 
 app.delete('/:id', (req, res, next) => {
 
-    mysqlConnection.query('DELETE FROM empleado WHERE id_empleado = ?', [req.params.id], (err, rows) => {
+    mysqlConnection.query('call borrarEmpleado(?)', [req.params.id], (err, rows) => {
         if (!err && rows != "") {
             // console.log(rows);
             res.status(200).json({
