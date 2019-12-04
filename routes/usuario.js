@@ -94,22 +94,24 @@ app.delete('/:id', (req, res, next) => {
 
 
 // ========================================================
-// ================AGREGAR EMPLEADO ===============
+// ================AGREGAR USUARIO ===============
 //=========================================================
 app.post('/', (req, res, next) => {
 
     var body = req.body;
     var usuario = {
-        nombre: body.nombre,
+        nombre: body.nombre_usr,
         contra: bcrypt.hashSync(body.contra, 10),
+
 
     }
     mysqlConnection
         .query("INSERT INTO horarioscca.usuario \
-        (nombre,contra) \
+        (nombre_usr,contra) \
          VALUES (?,?) ", [
                 usuario.nombre,
-                usuario.contra
+                usuario.contra,
+
             ],
             (err, rows) => {
                 if (!err) {
@@ -139,15 +141,15 @@ app.put('/:id', (req, res, next) => {
 
     var body = req.body;
     var usuario = {
-        nombre: body.nombre,
+        nombre: body.nombre_usr,
         contra: bcrypt.hashSync(body.contra, 10),
 
     }
     mysqlConnection
         .query("UPDATE horarioscca.usuario \
-         SET nombre=?,contra=?\
+         SET nombre_usr=?,contra=?\
             WHERE id_usuario = ? ", [
-                usuario.nombre,
+                usuario.nombre_usr,
                 usuario.contra,
                 req.params.id
             ],

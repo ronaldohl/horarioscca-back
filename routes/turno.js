@@ -138,10 +138,10 @@ app.post('/', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Insercion Correcta",
-                            rows: rows
-                        }
+
+                        mensaje: "Insercion Correcta",
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -202,11 +202,11 @@ app.put('/:id', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de turno",
-                            Body: req.body,
-                            rows: rows
-                        }
+
+                        mensaje: "Update Correcta de turno",
+                        Body: req.body,
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({

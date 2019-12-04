@@ -34,7 +34,7 @@ app.get('/:tipo/:id', (req, res, next) => {
         id_pet = 'id_empleado';
         tabla = 'empleado';
     } else if (tipo == 'd') {
-        id_pet = 'id_departamento';
+        id_pet = 'id_dpto';
         tabla = 'departamento';
     } else if (tipo == 'l') {
         id_pet = 'id_lugar';

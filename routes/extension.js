@@ -98,20 +98,22 @@ app.post('/', (req, res, next) => {
 
     var extension = {
         id_extension: Number,
+        numero: Number,
         nombre: String,
         tipo: String,
         anotacion: String
     }
-    extension.id_extension = req.body.id_extension;
+
+    extension.numero = req.body.numero;
     extension.nombre = req.body.nombre;
     extension.tipo = req.body.tipo;
     extension.anotacion = req.body.anotacion;
 
     mysqlConnection
         .query("INSERT INTO horarioscca.extension \
-        (id_extension, nombre, tipo, anotacion) \
+        (numero, nombre, tipo, anotacion) \
          VALUES (?,?,?,?) ", [
-                extension.id_extension,
+                extension.numero,
                 extension.nombre,
                 extension.tipo,
                 extension.anotacion,
@@ -121,10 +123,10 @@ app.post('/', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Insercion Correcta",
-                            rows: rows
-                        }
+
+                        mensaje: "Insercion Correcta",
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -144,20 +146,22 @@ app.put('/:id', (req, res, next) => {
 
     var extension = {
         id_extension: Number,
+        numero: Number,
         nombre: String,
         tipo: String,
         anotacion: String
     }
-    extension.id_extension = req.body.id_extension;
+
+    extension.numero = req.body.numero;
     extension.nombre = req.body.nombre;
     extension.tipo = req.body.tipo;
     extension.anotacion = req.body.anotacion;
 
     mysqlConnection
         .query("UPDATE horarioscca.extension \
-         SET id_extension=?, nombre=?, tipo=?, anotacion=?\
+         SET numero=?, nombre=?, tipo=?, anotacion=?\
             WHERE id_extension = ? ", [
-                extension.id_extension,
+                extension.numero,
                 extension.nombre,
                 extension.tipo,
                 extension.anotacion,
@@ -168,11 +172,11 @@ app.put('/:id', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de Extension",
-                            Body: req.body,
-                            rows: rows
-                        }
+
+                        mensaje: "Update Correcta de Extension",
+                        Body: req.body,
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({

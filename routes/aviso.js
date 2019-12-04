@@ -100,23 +100,23 @@ app.post('/', (req, res, next) => {
         descripcion: String
     }
 
-    aviso.nombre = req.body.nombre;
-    aviso.tipo = req.body.tipo;
-    aviso.descripcion = req.body.descripcion;
+    aviso.nombre = req.body.nombre_avi;
+    aviso.tipo = req.body.tipo_avi;
+    aviso.descripcion = req.body.descripcion_avi;
 
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.aviso (nombre,tipo,descripcion ) \
+        .query("INSERT INTO horarioscca.aviso (nombre_avi,tipo_avi,descripcion_avi ) \
          VALUES (?,?,?) ", [aviso.nombre, aviso.tipo, aviso.descripcion],
             (err, rows) => {
                 if (!err) {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Insercion Correcta",
-                            rows: rows
-                        }
+
+                        mensaje: "Insercion Correcta",
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -130,7 +130,7 @@ app.post('/', (req, res, next) => {
 });
 
 // ========================================================
-// ================ACTUALIZAR CLASE =======================
+// ================ACTUALIZAR AVISO =======================
 //=========================================================
 app.put('/:id', (req, res, next) => {
 
@@ -141,23 +141,23 @@ app.put('/:id', (req, res, next) => {
         descripcion: String
     }
 
-    aviso.nombre = req.body.nombre;
-    aviso.tipo = req.body.tipo;
-    aviso.descripcion = req.body.descripcion;
+    aviso.nombre = req.body.nombre_avi;
+    aviso.tipo = req.body.tipo_avi;
+    aviso.descripcion = req.body.descripcion_avi;
 
     mysqlConnection
-        .query("UPDATE horarioscca.aviso SET nombre=?, tipo=? ,descripcion=?\
+        .query("UPDATE horarioscca.aviso SET nombre_avi=?, tipo_avi=? ,descripcion_avi=?\
             WHERE id_aviso = ? ", [aviso.nombre, aviso.tipo, aviso.descripcion, req.params.id],
             (err, rows) => {
                 if (!err) {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de clase",
-                            Body: req.body,
-                            rows: rows
-                        }
+
+                        mensaje: "Update Correcta de clase",
+                        Body: req.body,
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({

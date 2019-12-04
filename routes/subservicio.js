@@ -105,17 +105,17 @@ app.post('/', (req, res, next) => {
         duracion: Number,
         id_servicio: Number
     }
-    subservicio.nombre = req.body.nombre;
-    subservicio.recomendaciones = req.body.recomendaciones;
-    subservicio.descripcion = req.body.descripcion;
-    subservicio.costo = req.body.costo;
-    subservicio.det_costo = req.body.det_costo;
+    subservicio.nombre = req.body.nombre_subs;
+    subservicio.recomendaciones = req.body.recomendaciones_subs;
+    subservicio.descripcion = req.body.descripcion_subs;
+    subservicio.costo = req.body.costo_subs;
+    subservicio.det_costo = req.body.det_costo_subs;
     subservicio.duracion = req.body.duracion;
     subservicio.id_servicio = req.body.id_servicio;
 
     mysqlConnection
         .query("INSERT INTO horarioscca.subservicio \
-        (nombre,recomendaciones, descripcion, costo, det_costo, duracion, id_servicio) \
+        (nombre_subs,recomendaciones_subs, descripcion_subs, costo_subs, det_costo_subs, duracion, id_servicio) \
          VALUES (?,?,?,?,?,?,?) ", [
                 subservicio.nombre,
                 subservicio.recomendaciones,
@@ -130,10 +130,10 @@ app.post('/', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Insercion Correcta",
-                            rows: rows
-                        }
+
+                        mensaje: "Insercion Correcta",
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -161,17 +161,17 @@ app.put('/:id', (req, res, next) => {
         duracion: Number,
         id_servicio: Number
     }
-    subservicio.nombre = req.body.nombre;
-    subservicio.recomendaciones = req.body.recomendaciones;
-    subservicio.descripcion = req.body.descripcion;
-    subservicio.costo = req.body.costo;
-    subservicio.det_costo = req.body.det_costo;
+    subservicio.nombre = req.body.nombre_subs;
+    subservicio.recomendaciones = req.body.recomendaciones_subs;
+    subservicio.descripcion = req.body.descripcion_subs;
+    subservicio.costo = req.body.costo_subs;
+    subservicio.det_costo = req.body.det_costo_subs;
     subservicio.duracion = req.body.duracion;
     subservicio.id_servicio = req.body.id_servicio;
 
     mysqlConnection
         .query("UPDATE horarioscca.subservicio \
-         SET nombre=?, recomendaciones=?, descripcion=?, costo=?, det_costo=?, duracion=?, id_servicio=?\
+         SET nombre_subs=?, recomendaciones_subs=?, descripcion_subs=?, costo_subs=?, det_costo_subs=?, duracion=?, id_servicio=?\
             WHERE id_subservicio = ? ", [
                 subservicio.nombre,
                 subservicio.recomendaciones,
@@ -187,11 +187,11 @@ app.put('/:id', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de subsubservicio",
-                            Body: req.body,
-                            rows: rows
-                        }
+
+                        mensaje: "Update Correcta de subsubservicio",
+                        Body: req.body,
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -204,4 +204,23 @@ app.put('/:id', (req, res, next) => {
             })
 });
 
+
+app.get('/deservicio/:id', (req, res, next) => {
+
+    mysqlConnection
+        .query('SELECT * FROM subservicio WHERE id_servicio = ?', [req.params.id], (err, rows, field) => {
+            if (!err && rows != "") {
+                // console.log(rows);
+                res.status(200).json({
+                    ok: true,
+                    rows: rows
+                });
+            } else {
+                res.status(500).json({
+                    ok: false,
+                    error: "No existe subservicio con ese id "
+                });
+            }
+        })
+});
 module.exports = app

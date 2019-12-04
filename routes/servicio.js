@@ -103,14 +103,14 @@ app.post('/', (req, res, next) => {
         id_lugar: Number
     }
 
-    servicio.nombre = req.body.nombre;
-    servicio.categoria = req.body.categoria;
-    servicio.descripcion = req.body.descripcion;
+    servicio.nombre = req.body.nombre_serv;
+    servicio.categoria = req.body.categoria_serv;
+    servicio.descripcion = req.body.descripcion_serv;
     servicio.id_lugar = req.body.id_lugar;
 
     mysqlConnection
         .query("INSERT INTO horarioscca.servicio \
-        (nombre,categoria, descripcion, id_lugar) \
+        (nombre_serv,categoria_serv, descripcion_serv, id_lugar) \
          VALUES (?,?,?,?) ", [
                 servicio.nombre,
                 servicio.categoria,
@@ -122,10 +122,10 @@ app.post('/', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Insercion Correcta",
-                            rows: rows
-                        }
+
+                        mensaje: "Insercion Correcta",
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -150,14 +150,14 @@ app.put('/:id', (req, res, next) => {
         id_lugar: Number
     }
 
-    servicio.nombre = req.body.nombre;
-    servicio.categoria = req.body.categoria;
-    servicio.descripcion = req.body.descripcion;
+    servicio.nombre = req.body.nombre_serv;
+    servicio.categoria = req.body.categoria_serv;
+    servicio.descripcion = req.body.descripcion_serv;
     servicio.id_lugar = req.body.id_lugar;
 
     mysqlConnection
         .query("UPDATE horarioscca.servicio \
-         SET nombre=?, categoria=?, descripcion=?, id_lugar=?\
+         SET nombre_serv=?, categoria_serv=?, descripcion_serv=?, id_lugar=?\
             WHERE id_servicio = ? ", [
                 servicio.nombre,
                 servicio.categoria,
@@ -170,11 +170,11 @@ app.put('/:id', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de Servicio",
-                            Body: req.body,
-                            rows: rows
-                        }
+
+                        mensaje: "Update Correcta de Servicio",
+                        Body: req.body,
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({

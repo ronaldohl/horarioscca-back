@@ -49,7 +49,7 @@ app.get('/:id', (req, res, next) => {
 
     mysqlConnection
         .query('SELECT * FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows, field) => {
-            if (!err && rows.affectedRows === 1) {
+            if (!err) {
                 // console.log(rows);
                 res.status(200).json({
                     ok: true,
@@ -102,15 +102,15 @@ app.post('/', (req, res, next) => {
         fecha_constr: Date,
         id_edificio: Number
     }
-    lugar.nombre = req.body.nombre;
-    lugar.descripcion = req.body.descripcion;
+    lugar.nombre = req.body.nombre_lugar;
+    lugar.descripcion = req.body.descripcion_lugar;
     lugar.fecha_constr = req.body.fecha_constr;
     lugar.id_edificio = req.body.id_edificio;
 
 
     mysqlConnection
         .query("INSERT INTO horarioscca.lugar \
-        (nombre, descripcion, fecha_constr, id_edificio) \
+        (nombre_lugar, descripcion_lugar, fecha_constr, id_edificio) \
          VALUES (?,?,?,?) ", [
                 lugar.nombre,
                 lugar.descripcion,
@@ -122,10 +122,10 @@ app.post('/', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Insercion Correcta",
-                            rows: rows
-                        }
+
+                        mensaje: "Insercion Correcta",
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
@@ -150,14 +150,14 @@ app.put('/:id', (req, res, next) => {
         fecha_constr: Date,
         id_edificio: Number
     }
-    lugar.nombre = req.body.nombre;
-    lugar.descripcion = req.body.descripcion;
+    lugar.nombre = req.body.nombre_lugar;
+    lugar.descripcion = req.body.descripcion_lugar;
     lugar.fecha_constr = req.body.fecha_constr;
     lugar.id_edificio = req.body.id_edificio;
 
     mysqlConnection
         .query("UPDATE horarioscca.lugar \
-         SET nombre=?, descripcion=?, fecha_constr=?, id_edificio=?\
+         SET nombre_lugar=?, descripcion_lugar=?, fecha_constr=?, id_edificio=?\
             WHERE id_lugar = ? ", [
                 lugar.nombre,
                 lugar.descripcion,
@@ -170,11 +170,11 @@ app.put('/:id', (req, res, next) => {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de Lugar",
-                            Body: req.body,
-                            rows: rows
-                        }
+
+                        mensaje: "Update Correcta de Lugar",
+                        Body: req.body,
+                        rows: rows
+
                     });
                 } else {
                     res.status(500).json({
