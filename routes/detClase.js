@@ -28,7 +28,7 @@ app.get('/:id', (req, res, next) => {
     mysqlConnection
         .query("select actividad.id_actividad, actividad.nombre_actv, actividad.clasificacion_actv, actividad.descripcion_actv, clase.nombre_clase \
         from actividad inner join clase  on actividad.id_clase= clase.id_clase \
-        where clase.id_clase=?  ", [req.params.id], (err, rows, field) => {
+        where clase.id_clase=? order by nombre_actv; ", [req.params.id], (err, rows, field) => {
             if (!err && rows != "") {
                 // console.log(rows);
                 res.status(200).json({

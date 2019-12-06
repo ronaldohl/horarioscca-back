@@ -25,7 +25,7 @@ var app = express();
 //=========================================================
 app.get('/', (req, res, next) => {
     mysqlConnection
-        .query('SELECT * FROM servicio', (err, rows, field) => {
+        .query('SELECT * FROM servicio order by categoria_serv, nombre_serv;', (err, rows, field) => {
             if (!err) {
                 // console.log(rows);
                 res.status(200).json({
@@ -71,8 +71,8 @@ app.get('/:id', (req, res, next) => {
 
 app.delete('/:id', (req, res, next) => {
 
-    mysqlConnection.query('DELETE FROM servicio WHERE id_servicio = ?', [req.params.id], (err, rows) => {
-        if (!err && rows.affectedRows === 1) {
+    mysqlConnection.query('call BorrarServicio(?);', [req.params.id], (err, rows) => {
+        if (!err) {
             // console.log(rows);
             res.status(200).json({
                 ok: true,

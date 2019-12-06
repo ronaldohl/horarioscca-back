@@ -25,7 +25,7 @@ var app = express();
 //=========================================================
 app.get('/', (req, res, next) => {
     mysqlConnection
-        .query('SELECT * FROM extension', (err, rows, field) => {
+        .query('SELECT * FROM extension order by numero;', (err, rows, field) => {
             if (!err) {
                 // console.log(rows);
                 res.status(200).json({

@@ -23,7 +23,7 @@ var app = express();
 // ================OBTENER TODAS LAS ACTIVIDADES ===============
 //=========================================================
 app.get('/', (req, res, next) => {
-    mysqlConnection.query('SELECT * FROM actividad', (err, rows, field) => {
+    mysqlConnection.query('SELECT * FROM actividad order by id_clase, nombre_actv asc;', (err, rows, field) => {
         if (!err && rows != "") {
             // console.log(rows);
             res.status(200).json({
@@ -70,7 +70,7 @@ app.get('/:id', (req, res, next) => {
 app.delete('/:id', (req, res, next) => {
 
     mysqlConnection
-        .query('DELETE FROM actividad WHERE id_actividad = ?', [req.params.id],
+        .query(' call borrarActividad(?); ', [req.params.id],
             (err, rows) => {
                 if (!err && rows.affectedRows === 1) {
                     // console.log(rows);
@@ -105,14 +105,14 @@ app.post('/', (req, res, next) => {
         id_clase: Number
     }
 
-    actividad.nombre = req.body.nombre;
-    actividad.clasificacion = req.body.clasificacion;
-    actividad.descripcion = req.body.descripcion;
-    actividad.costo = req.body.costo;
+    actividad.nombre = req.body.nombre_actv;
+    actividad.clasificacion = req.body.clasificacion_actv;
+    actividad.descripcion = req.body.descripcion_actv;
+    actividad.costo = req.body.costo_actv;
     actividad.det_costo = req.body.det_costo;
     actividad.id_clase = req.body.id_clase;
 
-    mysqlConnection.query("INSERT INTO horarioscca.actividad (nombre,clasificacion,descripcion,costo,det_costo, id_clase) \
+    mysqlConnection.query("INSERT INTO horarioscca.actividad (nombre_actv,clasificacion_actv,descripcion_actv,costo_actv,det_costo_actv, id_clase) \
         VALUES (?,?,?,?,?,?) ", [actividad.nombre, actividad.clasificacion, actividad.descripcion, actividad.costo, actividad.det_costo, actividad.id_clase],
         (err, rows) => {
             if (!err) {
@@ -150,28 +150,28 @@ app.put('/:id', (req, res, next) => {
         id_clase: Number
     }
 
-    actividad.nombre = req.body.nombre;
-    actividad.clasificacion = req.body.clasificacion;
-    actividad.descripcion = req.body.descripcion;
-    actividad.costo = req.body.costo;
-    actividad.det_costo = req.body.det_costo;
+    actividad.nombre = req.body.nombre_actv;
+    actividad.clasificacion = req.body.clasificacion_actv;
+    actividad.descripcion = req.body.descripcion_actv;
+    actividad.costo = req.body.costo_actv;
+    actividad.det_costo = req.body.det_costo_actv;
     actividad.id_clase = req.body.id_clase;
 
 
     mysqlConnection
         .query("UPDATE horarioscca.actividad \
-        SET nombre=?, clasificacion=? ,descripcion=?, costo=?, det_costo=?,id_clase=? \
+        SET nombre_actv=?, clasificacion_actv=? ,descripcion_actv=?, costo_actv=?, det_costo_actv=?,id_clase=? \
         WHERE id_actividad = ? ", [actividad.nombre, actividad.clasificacion, actividad.descripcion, actividad.costo, actividad.det_costo, actividad.id_clase, req.params.id],
             (err, rows) => {
                 if (!err) {
                     // console.log(rows);
                     res.status(200).json({
                         ok: true,
-                        resp: {
-                            mensaje: "Update Correcta de Actividad",
-                            Body: req.body,
-                            rows
-                        }
+
+                        mensaje: "Update Correcta de Actividad",
+                        Body: req.body,
+                        rows
+
                     });
                 } else {
                     res.status(500).json({

@@ -49,7 +49,7 @@ app.get('/:tipo/:id', (req, res, next) => {
         .query(`select turno.id_turno, turno.dia, turno.hora_inicio, turno.hora_fin, turno.tipo \
         from turno inner join horarioscca.${tabla} on ${tabla}.${id_pet}=turno.${id_pet} \
         where turno.tipo='${tipo}' and turno.${id_pet}=?\
-        order by turno.dia ASC;  `, [req.params.id], (err, rows, field) => {
+        order by turno.dia, turno.hora_inicio ASC;  `, [req.params.id], (err, rows, field) => {
             if (!err && rows != "") {
                 // console.log(rows);
                 res.status(200).json({

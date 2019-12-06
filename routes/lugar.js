@@ -1,6 +1,6 @@
 var express = require('express');
 var mysql = require('mysql');
-
+var moment = require('moment');
 //Conexion a bd
 var mysqlConnection = mysql.createConnection({
     host: 'localhost',
@@ -25,7 +25,7 @@ var app = express();
 //=========================================================
 app.get('/', (req, res, next) => {
     mysqlConnection
-        .query('SELECT * FROM lugar', (err, rows, field) => {
+        .query('SELECT * FROM lugar order by nombre_lugar;', (err, rows, field) => {
             if (!err) {
                 // console.log(rows);
                 res.status(200).json({
@@ -51,6 +51,9 @@ app.get('/:id', (req, res, next) => {
         .query('SELECT * FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows, field) => {
             if (!err) {
                 // console.log(rows);
+                rows.map(function(row) {
+                    row.fecha_constr = moment(row.fecha_constr).format('YYYY-MM-DD');
+                });
                 res.status(200).json({
                     ok: true,
                     rows: rows
@@ -71,8 +74,8 @@ app.get('/:id', (req, res, next) => {
 
 app.delete('/:id', (req, res, next) => {
 
-    mysqlConnection.query('DELETE FROM lugar WHERE id_lugar = ?', [req.params.id], (err, rows) => {
-        if (!err && rows.affectedRows === 1) {
+    mysqlConnection.query('call borrarLugar(?);', [req.params.id], (err, rows) => {
+        if (!err) {
             // console.log(rows);
             res.status(200).json({
                 ok: true,
@@ -189,7 +192,7 @@ app.put('/:id', (req, res, next) => {
 
 app.get('/sublugares/:id', (req, res, next) => {
     mysqlConnection
-        .query('SELECT * FROM lugar WHERE id_edificio = ?', [req.params.id], (err, rows, field) => {
+        .query('SELECT * FROM lugar WHERE id_edificio = ? order by nombre_lugar;', [req.params.id], (err, rows, field) => {
             if (!err && rows !== "") {
                 // console.log(rows);
                 res.status(200).json({

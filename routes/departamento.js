@@ -25,7 +25,7 @@ var app = express();
 //=========================================================
 app.get('/', (req, res, next) => {
     mysqlConnection
-        .query('SELECT * FROM departamento', (err, rows, field) => {
+        .query('SELECT * FROM departamento order by tipo_dpto, nombre_dpto', (err, rows, field) => {
             if (!err) {
                 // console.log(rows);
                 res.status(200).json({
@@ -71,7 +71,7 @@ app.get('/:id', (req, res, next) => {
 
 app.delete('/:id', (req, res, next) => {
 
-    mysqlConnection.query('DELETE FROM departamento WHERE id_dpto = ?', [req.params.id], (err, rows) => {
+    mysqlConnection.query('call borrarDepartamento(?);', [req.params.id], (err, rows) => {
         if (!err && rows != "") {
             // console.log(rows);
             res.status(200).json({

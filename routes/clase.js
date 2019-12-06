@@ -24,7 +24,7 @@ var app = express();
 // ================OBTENER TODAS LAS CLASES ===============
 //=========================================================
 app.get('/', (req, res, next) => {
-    mysqlConnection.query('SELECT * FROM clase', (err, rows, field) => {
+    mysqlConnection.query('SELECT * FROM clase order by nombre_clase asc', (err, rows, field) => {
         if (!err) {
             // console.log(rows);
             res.status(200).json({
@@ -69,7 +69,7 @@ app.get('/:id', (req, res, next) => {
 
 app.delete('/:id', (req, res, next) => {
 
-    mysqlConnection.query('DELETE FROM clase WHERE id_clase = ?', [req.params.id], (err, rows) => {
+    mysqlConnection.query('call borrarClase(?);', [req.params.id], (err, rows) => {
         if (!err && rows.affectedRows === 1) {
             // console.log(rows);
             res.status(200).json({

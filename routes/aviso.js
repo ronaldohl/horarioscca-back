@@ -24,7 +24,7 @@ var app = express();
 // ================OBTENER TODAS LOS AVISOS ===============
 //=========================================================
 app.get('/', (req, res, next) => {
-    mysqlConnection.query('SELECT * FROM aviso', (err, rows, field) => {
+    mysqlConnection.query('SELECT * FROM aviso order by tipo_avi;', (err, rows, field) => {
         if (!err) {
             // console.log(rows);
             res.status(200).json({
