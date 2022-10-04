@@ -111,7 +111,7 @@ app.post('/', (req, res, next) => {
     actividad.det_costo = req.body.det_costo;
     actividad.id_clase = req.body.id_clase;
 
-    mysqlConnection.query("INSERT INTO horarioscca.actividad (nombre_actv,clasificacion_actv,descripcion_actv,costo_actv,det_costo_actv, id_clase) \
+    mysqlConnection.query("INSERT INTO bd_horarioscca_angular.actividad (nombre_actv,clasificacion_actv,descripcion_actv,costo_actv,det_costo_actv, id_clase) \
         VALUES (?,?,?,?,?,?) ", [actividad.nombre, actividad.clasificacion, actividad.descripcion, actividad.costo, actividad.det_costo, actividad.id_clase],
         (err, rows) => {
             if (!err) {
@@ -158,7 +158,7 @@ app.put('/:id', (req, res, next) => {
 
 
     mysqlConnection
-        .query("UPDATE horarioscca.actividad \
+        .query("UPDATE bd_horarioscca_angular.actividad \
         SET nombre_actv=?, clasificacion_actv=? ,descripcion_actv=?, costo_actv=?, det_costo_actv=?,id_clase=? \
         WHERE id_actividad = ? ", [actividad.nombre, actividad.clasificacion, actividad.descripcion, actividad.costo, actividad.det_costo, actividad.id_clase, req.params.id],
             (err, rows) => {

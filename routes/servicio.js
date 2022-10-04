@@ -108,7 +108,7 @@ app.post('/', (req, res, next) => {
     servicio.id_lugar = req.body.id_lugar;
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.servicio \
+        .query("INSERT INTO bd_horarioscca_angular.servicio \
         (nombre_serv,categoria_serv, descripcion_serv, id_lugar) \
          VALUES (?,?,?,?) ", [
                 servicio.nombre,
@@ -155,7 +155,7 @@ app.put('/:id', (req, res, next) => {
     servicio.id_lugar = req.body.id_lugar;
 
     mysqlConnection
-        .query("UPDATE horarioscca.servicio \
+        .query("UPDATE bd_horarioscca_angular.servicio \
          SET nombre_serv=?, categoria_serv=?, descripcion_serv=?, id_lugar=?\
             WHERE id_servicio = ? ", [
                 servicio.nombre,

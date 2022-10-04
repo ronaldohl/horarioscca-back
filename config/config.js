@@ -6,3 +6,4 @@ module.exports.CONFIG_BD = {
     password: '',
     database: 'bd_horarioscca_angular'
 }
+

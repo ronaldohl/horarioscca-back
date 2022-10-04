@@ -112,7 +112,7 @@ app.post('/', (req, res, next) => {
     departameto.id_emp_resp = req.body.id_emp_resp;
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.departamento (nombre_dpto,tipo_dpto,descripcion_dpto,id_lugar,id_dep_sup,id_emp_resp ) \
+        .query("INSERT INTO bd_horarioscca_angular.departamento (nombre_dpto,tipo_dpto,descripcion_dpto,id_lugar,id_dep_sup,id_emp_resp ) \
          VALUES (?,?,?,?,?,?) ", [
                 departameto.nombre_dpto,
                 departameto.tipo_dpto,
@@ -165,7 +165,7 @@ app.put('/:id', (req, res, next) => {
     departameto.id_emp_resp = req.body.id_emp_resp;
 
     mysqlConnection
-        .query("UPDATE horarioscca.departamento \
+        .query("UPDATE bd_horarioscca_angular.departamento \
          SET nombre_dpto=?, tipo_dpto=? ,descripcion_dpto=?, id_lugar=?, id_dep_sup=?, id_emp_resp=?\
             WHERE id_dpto = ? ", [
                 departameto.nombre_dpto,

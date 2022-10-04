@@ -46,7 +46,7 @@ app.get('/:tipo/:id', (req, res, next) => {
 
     mysqlConnection
         .query(`select turno.id_turno, turno.dia, turno.hora_inicio, turno.hora_fin, turno.tipo \
-        from turno inner join horarioscca.${tabla} on ${tabla}.${id_pet}=turno.${id_pet} \
+        from turno inner join bd_horarioscca_angular.${tabla} on ${tabla}.${id_pet}=turno.${id_pet} \
         where turno.tipo='${tipo}' and turno.${id_pet}=?\
         order by turno.dia, turno.hora_inicio ASC;  `, [req.params.id], (err, rows, field) => {
             if (!err && rows != "") {

@@ -100,7 +100,7 @@ app.post('/', (req, res, next) => {
     clase.tipo = req.body.tipo_clase;
     clase.anotaciones = req.body.anotaciones_clase;
 
-    mysqlConnection.query("INSERT INTO horarioscca.clase (nombre_clase,tipo_clase,anotaciones_clase ) VALUES (?,?,?) ", [clase.nombre, clase.tipo, clase.anotaciones], (err, rows) => {
+    mysqlConnection.query("INSERT INTO bd_horarioscca_angular.clase (nombre_clase,tipo_clase,anotaciones_clase ) VALUES (?,?,?) ", [clase.nombre, clase.tipo, clase.anotaciones], (err, rows) => {
         if (!err) {
             // console.log(rows);
             res.status(200).json({
@@ -137,7 +137,7 @@ app.put('/:id', (req, res, next) => {
     clase.tipo = req.body.tipo_clase;
     clase.anotaciones = req.body.anotaciones_clase;
 
-    mysqlConnection.query("UPDATE horarioscca.clase SET nombre_clase=?, tipo_clase=? ,anotaciones_clase=? WHERE id_clase = ? ", [clase.nombre, clase.tipo, clase.anotaciones, req.params.id], (err, rows) => {
+    mysqlConnection.query("UPDATE bd_horarioscca_angular.clase SET nombre_clase=?, tipo_clase=? ,anotaciones_clase=? WHERE id_clase = ? ", [clase.nombre, clase.tipo, clase.anotaciones, req.params.id], (err, rows) => {
         if (!err) {
             // console.log(rows);
             res.status(200).json({

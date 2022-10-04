@@ -119,7 +119,7 @@ app.post('/', (req, res, next) => {
     turno.id_empleado = req.body.id_empleado;
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.turno \
+        .query("INSERT INTO bd_horarioscca_angular.turno \
         (tipo,dia,hora_inicio, hora_fin, id_lugar, id_actividad, id_servicio, id_dpto, id_empleado) \
          VALUES (?,?,?,?,?,?,?,?,?) ", [
                 turno.tipo,
@@ -182,7 +182,7 @@ app.put('/:id', (req, res, next) => {
     turno.id_empleado = req.body.id_empleado;
 
     mysqlConnection
-        .query("UPDATE horarioscca.turno \
+        .query("UPDATE bd_horarioscca_angular.turno \
          SET tipo=?,dia=?,hora_inicio=?, hora_fin=?, id_lugar=?, id_actividad=?, id_servicio=?, id_dpto=?, id_empleado=?\
             WHERE id_turno = ? ", [
                 turno.tipo,

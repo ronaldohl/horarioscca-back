@@ -25,7 +25,7 @@ app.get('/:id', (req, res, next) => {
 
     mysqlConnection
         .query("select turno.id_turno, turno.dia, turno.hora_inicio, turno.hora_fin, empleado.id_empleado, empleado.nombre_emp, actividad.nombre_actv, actividad.clasificacion_actv, actividad.descripcion_actv, actividad.costo_actv, actividad.det_costo_actv, lugar.id_lugar, lugar.nombre_lugar \
-        from turno inner join horarioscca.actividad  inner join empleado inner join lugar\
+        from turno inner join bd_horarioscca_angular.actividad  inner join empleado inner join lugar\
         where turno.tipo='a' and turno.id_turno=? and turno.id_actividad=actividad.id_actividad and turno.id_empleado = empleado.id_empleado and turno.id_lugar=lugar.id_lugar;  ", [req.params.id, req.params.id], (err, rows, field) => {
             if (!err && rows != "") {
                 // console.log(rows);

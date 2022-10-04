@@ -105,7 +105,7 @@ app.post('/', (req, res, next) => {
 
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.aviso (nombre_avi,tipo_avi,descripcion_avi ) \
+        .query("INSERT INTO bd_horarioscca_angular.aviso (nombre_avi,tipo_avi,descripcion_avi ) \
          VALUES (?,?,?) ", [aviso.nombre, aviso.tipo, aviso.descripcion],
             (err, rows) => {
                 if (!err) {
@@ -145,7 +145,7 @@ app.put('/:id', (req, res, next) => {
     aviso.descripcion = req.body.descripcion_avi;
 
     mysqlConnection
-        .query("UPDATE horarioscca.aviso SET nombre_avi=?, tipo_avi=? ,descripcion_avi=?\
+        .query("UPDATE bd_horarioscca_angular.aviso SET nombre_avi=?, tipo_avi=? ,descripcion_avi=?\
             WHERE id_aviso = ? ", [aviso.nombre, aviso.tipo, aviso.descripcion, req.params.id],
             (err, rows) => {
                 if (!err) {

@@ -106,7 +106,7 @@ app.post('/', (req, res, next) => {
 
     }
     mysqlConnection
-        .query("INSERT INTO horarioscca.usuario \
+        .query("INSERT INTO bd_horarioscca_angular.usuario \
         (nombre_usr,contra) \
          VALUES (?,?) ", [
                 usuario.nombre,
@@ -146,7 +146,7 @@ app.put('/:id', (req, res, next) => {
 
     }
     mysqlConnection
-        .query("UPDATE horarioscca.usuario \
+        .query("UPDATE bd_horarioscca_angular.usuario \
          SET nombre_usr=?,contra=?\
             WHERE id_usuario = ? ", [
                 usuario.nombre_usr,

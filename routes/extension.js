@@ -108,7 +108,7 @@ app.post('/', (req, res, next) => {
     extension.anotacion = req.body.anotacion;
 
     mysqlConnection
-        .query("INSERT INTO horarioscca.extension \
+        .query("INSERT INTO bd_horarioscca_angular.extension \
         (numero, nombre, tipo, anotacion) \
          VALUES (?,?,?,?) ", [
                 extension.numero,
@@ -156,7 +156,7 @@ app.put('/:id', (req, res, next) => {
     extension.anotacion = req.body.anotacion;
 
     mysqlConnection
-        .query("UPDATE horarioscca.extension \
+        .query("UPDATE bd_horarioscca_angular.extension \
          SET numero=?, nombre=?, tipo=?, anotacion=?\
             WHERE id_extension = ? ", [
                 extension.numero,
