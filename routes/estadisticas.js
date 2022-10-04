@@ -1,14 +1,12 @@
 var express = require('express');
 var mysql = require('mysql');
 
-//Conexion a bd
-var mysqlConnection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'toor',
-    database: 'horarioscca'
-});
+const CONFIG_BD = require('../config/config').CONFIG_BD;
 
+
+
+//Conexion a bd
+var mysqlConnection = mysql.createConnection(CONFIG_BD);
 mysqlConnection.connect((err) => {
     if (err) {
         console.log('Fallo conexion -detActividad');

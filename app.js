@@ -43,11 +43,11 @@ var verEmpleadoRoutes = require('./routes/verEmpleado');
 var detClaseRoutes = require('./routes/detClase');
 var estadisticasRoutes = require('./routes/estadisticas');
 //Conexion a bd
-var mysqlConnection = mysql.createConnection({
+const mysqlConnection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'toor',
-    database: 'horarioscca'
+    password: '',
+    database: 'bd_horarioscca_angular'
 });
 
 mysqlConnection.connect((err) => {
@@ -110,3 +110,5 @@ app.listen(3000, () => {
 
 //Era para ver si podia exportar la conexion y no estar haciendola en cada route
 // module.exports = mysqlConnection
+
+module.exports = {mysqlConnection}

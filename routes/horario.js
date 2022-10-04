@@ -1,13 +1,12 @@
 var express = require('express');
 var mysql = require('mysql');
 
+const CONFIG_BD = require('../config/config').CONFIG_BD;
+
+
+
 //Conexion a bd
-var mysqlConnection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'toor',
-    database: 'horarioscca'
-});
+var mysqlConnection = mysql.createConnection(CONFIG_BD);
 
 mysqlConnection.connect((err) => {
     if (err) {
